@@ -2,6 +2,7 @@
   "conventionalCommits.scopes": [
     "README",
     "auth",
-    "Prettier&ESLint"
+    "Prettier&ESLint",
+    "http"
   ]
 }
