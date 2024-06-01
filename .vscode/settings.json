@@ -3,6 +3,7 @@
     "README",
     "auth",
     "Prettier&ESLint",
-    "http"
+    "http",
+    "Database"
   ]
 }
