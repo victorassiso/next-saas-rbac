@@ -8,21 +8,22 @@ import { z } from 'zod'
 
 import { User } from './models/user'
 import { permissions } from './permissions'
+import { billingSubjectSchema } from './subjects/billing'
 import { inviteSubjectSchema } from './subjects/invite'
 import { organizationSubjectSchema } from './subjects/organization'
-import { productSubjectSchema } from './subjects/products'
+import { projectSubjectSchema } from './subjects/project'
 import { userSubjectSchema } from './subjects/user'
 
 export * from './models/organization'
-export * from './models/product'
+export * from './models/project'
 export * from './models/user'
 
 const appAbilitiesSchema = z.union([
-  productSubjectSchema,
+  projectSubjectSchema,
   userSubjectSchema,
   organizationSubjectSchema,
   inviteSubjectSchema,
-
+  billingSubjectSchema,
   z.tuple([z.literal('manage'), z.literal('all')]),
 ])
 
@@ -41,7 +42,11 @@ export function defineAbilityFor(user: User) {
 
   permissions[user.role](user, builder)
 
-  const ability = builder.build()
+  const ability = builder.build({
+    detectSubjectType(subject) {
+      return subject.__typename
+    },
+  })
 
   return ability
 }
